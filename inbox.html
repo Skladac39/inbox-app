@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiSW5ib3giLCJzaG9ydF9uYW1lIjoiSW5ib3giLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwMDAwMDAiLCJ0aGVtZV9jb2xvciI6IiMwMDAwMDAiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M00zVnZjbWN2TWpBd01DOXpkbWNpSUhkcFpIUm9QU0kxTVRJaUlHaGxhV2RvZEQwaU5URXlJajRLSUNBZ1BISmxZM1FnZUQwaU1DSWdlVDBpTUNJZ2QybGtkR2c5SWpVeE1pSWdhR1ZwWjJoMFBTSTFNVElpSUdacGJHdzlJaU16TXpNaUx6NEtJQ0FnUEhSbGVIUWdlRDBpTWpVMklpQjVQU0kxTURBaUlHWnBiR3c5SWlNM1JrWkdSa1lpSUdaMWJuUXRabUZ0YVd4NVBTSmhjbWxoYkN3Z2MyRnVjeTF6WlhKcFppSWdabTl1ZEMxemFYcGxQU0kxTUNCd2VDSWdkR1Y0ZEMxaGJtTm9iM0k5SW0xcFpHUnNaU0krU1c1aWIzZzhMM1JsZUhRK0NpQThMM04yWno0PSIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn0seyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTTNWdmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSTFNVElpSUdobGFXZG9kRDBpTlRFeUlqNEtJQ0FnUEhKbFkzUWdlRDBpTUNJZ2VUMGlNQ0lnZDJsa2RHZzlJalV4TWlJZ2FHVnBaMmgwUFNJMU1USWlJR1pwYkd3OUlpTXpNek1pTHo0S0lDQWdQSFJsZUhRZ2VEMGlNalUySWlCNVBTSTFNREFpSUdacGJHdzlJaU0zUmtaR1JrWWlJR1oxYm5RdFptRnRhV3g1UFNKaGNtbGhiQ3dnYzJGdWN5MXpaWEpwWmlJZ1ptOXVkQzF6YVhwbFBTSTFNQ0J3ZUNJZ2RHVjRkQzFoYm1Ob2IzSTlJbTFwWkdSc1pTSStTVzVpYjNnOEwzUmxlSFErQ2lBOEwzTjJaejQ9Iiwic2l6ZXMiOiIyNTZ4MjU2IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+    <meta name="theme-color" content="#000000">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+        
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+        
+        .notes-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .note {
+            background-color: #000000;
+            border: 1px solid white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .note-content {
+            flex: 1;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            min-width: 0;
+        }
+        
+        .note-actions {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        
+        .note-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .note-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: white;
+            color: black;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #000000;
+            border: 1px solid white;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .modal h3 {
+            margin-bottom: 16px;
+            color: white;
+        }
+        
+        .modal textarea {
+            width: 100%;
+            min-height: 120px;
+            background-color: #000000;
+            color: white;
+            border: 1px solid white;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 16px;
+            outline: none;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background-color: white;
+            color: black;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">Inbox</div>
+    
+    <div class="notes-container" id="notesContainer">
+        <!-- Poznámky se budou zobrazovat zde -->
+    </div>
+    
+    <button class="fab" id="addBtn">+</button>
+    
+    <!-- Modal pro přidání/úpravu poznámky -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Nová poznámka</h3>
+            <textarea id="noteText" placeholder="Napište svou poznámku..."></textarea>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="cancelBtn">Zrušit</button>
+                <button class="btn btn-primary" id="saveBtn">Uložit</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal pro potvrzení smazání -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <h3>Smazat poznámku?</h3>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" id="deleteCancelBtn">Zrušit</button>
+                <button class="btn btn-danger" id="deleteConfirmBtn">Smazat</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class InboxApp {
+            constructor() {
+                this.notes = this.loadNotes();
+                this.currentEditIndex = -1;
+                this.currentDeleteIndex = -1;
+                this.initEventListeners();
+                this.renderNotes();
+                this.registerServiceWorker();
+            }
+            
+            loadNotes() {
+                const saved = localStorage.getItem('inbox-notes');
+                return saved ? JSON.parse(saved) : [];
+            }
+            
+            saveNotes() {
+                localStorage.setItem('inbox-notes', JSON.stringify(this.notes));
+            }
+            
+            initEventListeners() {
+                document.getElementById('addBtn').addEventListener('click', () => this.openNoteModal());
+                document.getElementById('saveBtn').addEventListener('click', () => this.saveNote());
+                document.getElementById('cancelBtn').addEventListener('click', () => this.closeNoteModal());
+                document.getElementById('deleteConfirmBtn').addEventListener('click', () => this.confirmDelete());
+                document.getElementById('deleteCancelBtn').addEventListener('click', () => this.closeDeleteModal());
+                
+                // Zavření modalu kliknutím mimo obsah
+                document.getElementById('noteModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'noteModal') this.closeNoteModal();
+                });
+                document.getElementById('deleteModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'deleteModal') this.closeDeleteModal();
+                });
+                
+                // Enter pro uložení (Ctrl+Enter)
+                document.getElementById('noteText').addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') {
+                        this.saveNote();
+                    }
+                });
+            }
+            
+            openNoteModal(index = -1) {
+                this.currentEditIndex = index;
+                const modal = document.getElementById('noteModal');
+                const title = document.getElementById('modalTitle');
+                const textarea = document.getElementById('noteText');
+                
+                if (index >= 0) {
+                    title.textContent = 'Upravit poznámku';
+                    textarea.value = this.notes[index].text;
+                } else {
+                    title.textContent = 'Nová poznámka';
+                    textarea.value = '';
+                }
+                
+                modal.style.display = 'block';
+                textarea.focus();
+            }
+            
+            closeNoteModal() {
+                document.getElementById('noteModal').style.display = 'none';
+                this.currentEditIndex = -1;
+            }
+            
+            saveNote() {
+                const text = document.getElementById('noteText').value.trim();
+                if (!text) return;
+                
+                if (this.currentEditIndex >= 0) {
+                    this.notes[this.currentEditIndex].text = text;
+                    this.notes[this.currentEditIndex].updated = Date.now();
+                } else {
+                    const note = {
+                        id: Date.now(),
+                        text: text,
+                        created: Date.now(),
+                        updated: Date.now()
+                    };
+                    this.notes.unshift(note);
+                }
+                
+                this.saveNotes();
+                this.renderNotes();
+                this.closeNoteModal();
+            }
+            
+            openDeleteModal(index) {
+                this.currentDeleteIndex = index;
+                document.getElementById('deleteModal').style.display = 'block';
+            }
+            
+            closeDeleteModal() {
+                document.getElementById('deleteModal').style.display = 'none';
+                this.currentDeleteIndex = -1;
+            }
+            
+            confirmDelete() {
+                if (this.currentDeleteIndex >= 0) {
+                    this.notes.splice(this.currentDeleteIndex, 1);
+                    this.saveNotes();
+                    this.renderNotes();
+                }
+                this.closeDeleteModal();
+            }
+            
+            renderNotes() {
+                const container = document.getElementById('notesContainer');
+                container.innerHTML = '';
+                
+                this.notes.forEach((note, index) => {
+                    const noteEl = document.createElement('div');
+                    noteEl.className = 'note';
+                    noteEl.innerHTML = `
+                        <div class="note-content">${this.escapeHtml(note.text)}</div>
+                        <div class="note-actions">
+                            <button class="note-btn" onclick="app.openNoteModal(${index})" title="Upravit">✎</button>
+                            <button class="note-btn" onclick="app.openDeleteModal(${index})" title="Smazat">✕</button>
+                        </div>
+                    `;
+                    container.appendChild(noteEl);
+                });
+            }
+            
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    const swCode = `
+                        const CACHE_NAME = 'inbox-v1';
+                        const urlsToCache = ['/'];
+                        
+                        self.addEventListener('install', event => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then(cache => cache.addAll(urlsToCache))
+                            );
+                        });
+                        
+                        self.addEventListener('fetch', event => {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then(response => response || fetch(event.request))
+                            );
+                        });
+                    `;
+                    
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    
+                    navigator.serviceWorker.register(swUrl)
+                        .then(() => console.log('SW registered'))
+                        .catch(err => console.log('SW registration failed'));
+                }
+            }
+        }
+        
+        const app = new InboxApp();
+    </script>
+</body>
+</html>
